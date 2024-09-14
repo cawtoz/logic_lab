@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:logic_lab/screens/login/login.dart';
-import 'package:logic_lab/main.dart';
 
 // Pantalla de bienvenida de la aplicación.
 class WelcomeScreen extends StatelessWidget {
