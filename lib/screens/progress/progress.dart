@@ -13,7 +13,7 @@ class ProgressScreen extends StatelessWidget {
 
       body: Column(
         children: <Widget>[
-          // Agregar todo lo necesario aqui :)
+          // Pagina de Bairon
         ],
       )
       
