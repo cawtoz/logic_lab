@@ -13,7 +13,7 @@ class HomeScreen extends StatelessWidget {
 
       body: Column(
         children: <Widget>[
-          // Agregar todo lo necesario aqui :)
+          //Rama de diseño de Brayan 
         ],
       )
       
