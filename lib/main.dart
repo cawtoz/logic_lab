@@ -5,6 +5,7 @@ import 'package:logic_lab/screens/home/home.dart';
 import 'package:logic_lab/screens/progress/progress.dart';
 import 'package:logic_lab/screens/welcome/welcome.dart';
 
+
 void main() {
   runApp(const MainApp());
 }
