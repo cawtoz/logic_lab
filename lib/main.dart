@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:logic_lab/firebase_options.dart';
 import 'package:logic_lab/screens/admin/admin.dart';
 import 'package:logic_lab/screens/config/config.dart';
 import 'package:logic_lab/screens/home/home.dart';
@@ -6,7 +9,9 @@ import 'package:logic_lab/screens/progress/progress.dart';
 import 'package:logic_lab/screens/welcome/welcome.dart';
 
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MainApp());
 }
 
@@ -29,15 +34,43 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Logic Lab',
-      home: const WelcomeScreen(),
+      home: const AuthWrapper(),
       theme: theme,
       debugShowCheckedModeBanner: false,
     );
   }
 }
 
+class AuthWrapper extends StatelessWidget {
+  const AuthWrapper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        // Si el usuario está autenticado, lo enviamos a HomeScreen
+        if (snapshot.connectionState == ConnectionState.active) {
+          final user = snapshot.data;
+          if (user == null) {
+            return const WelcomeScreen();
+          } else {
+            return const MainScreen(); // Pantalla principal si está logeado
+          }
+        } else {
+          // Mostrar algo mientras se conecta
+          return const Center(child: CircularProgressIndicator());
+        }
+      },
+    );
+  }
+}
+
 class MainScreen extends StatefulWidget {
-   const MainScreen({super.key});
+
+  final int initialScreen;
+
+  const MainScreen({super.key, this.initialScreen = 0});
 
   @override
   HomeScreenState createState() => HomeScreenState();
@@ -46,6 +79,12 @@ class MainScreen extends StatefulWidget {
 class HomeScreenState extends State<MainScreen> {
 
   int currentScreen = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    currentScreen = widget.initialScreen;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,8 +101,6 @@ class HomeScreenState extends State<MainScreen> {
   }
   
 }
-
-
 
 List<Widget> screens = [
   const HomeScreen(),

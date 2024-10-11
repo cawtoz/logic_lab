@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:logic_lab/components/custom_app_bar.dart';
+import 'package:logic_lab/screens/login/login.dart';
 
 class ConfigScreen extends StatelessWidget {
   
@@ -7,13 +9,22 @@ class ConfigScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
 
-      appBar: CustomAppBar(title: "Configuracion"),
+      appBar: const CustomAppBar(title: "Configuracion"),
 
       body: Column(
         children: <Widget>[
-          // Agregar todo lo necesario aqui :)
+          ElevatedButton(
+            onPressed: () async {
+              await FirebaseAuth.instance.signOut();
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginScreen()),
+              );
+            },
+            child: const Text('Cerrar sesión'),
+          )
         ],
       )
       

@@ -1,6 +1,6 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.example.logic_lab">
     <application
-        android:label="logic_lab"
+        android:label="Logic Lab"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
