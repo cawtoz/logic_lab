@@ -38,7 +38,7 @@ class WelcomeScreen extends StatelessWidget {
 }
 
 
-var logo = Image.asset('logo.png', width: 200, height: 200);
+var logo = Image.asset('assets/logo.jpg', width: 200, height: 200);
 
 Text titleText() { 
   return const Text(

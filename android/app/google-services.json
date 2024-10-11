@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "416774483695",
+    "project_id": "logic-lab-b071b",
+    "storage_bucket": "logic-lab-b071b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:416774483695:android:538b738a9ce07f0aa9751a",
+        "android_client_info": {
+          "package_name": "com.example.logic_lab"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "416774483695-edderbiv627eooaqrinf8o5lgd2bgtrn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.logic_lab",
+            "certificate_hash": "94ef1e0d0dd81c1509df9bf75f038e42dac5501d"
+          }
+        },
+        {
+          "client_id": "416774483695-3lfh6i69qsf5col5rdv0fpkrrtnnqv0d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCoiuAGZq6-_WKxBEEE_wN-HbZ526H5ys"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "416774483695-3lfh6i69qsf5col5rdv0fpkrrtnnqv0d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
