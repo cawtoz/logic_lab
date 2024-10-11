@@ -13,7 +13,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       title: Row(
         children: [
-          Image.asset('logo.png', width: 30, height: 30),
+          Image.asset('assets/logo.jpg', width: 30, height: 30),
           const SizedBox(width: 10),
           Text(
             title,

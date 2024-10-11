@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:logic_lab/components/custom_app_bar.dart';
 
 class ProgressScreen extends StatelessWidget {
   const ProgressScreen({super.key});
@@ -6,39 +7,7 @@ class ProgressScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0), // Aumenta el margen
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Logo y título en la misma fila
-              Row(
-                children: [
-                  Image.asset(
-                    'assets/logoProgreso.jpg', // Ruta del logo
-                    width: 40, // Ajusta el tamaño del logo
-                    height: 40,
-                  ),
-                  const SizedBox(width: 10), // Espaciado entre el logo y el título
-                  const Text(
-                    'Progreso',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10), // Espacio entre el título y la línea divisoria
-              const Divider(
-                color: Colors.white,
-                thickness: 2,
-              ),
-            ],
-          ),
-        ),
-      ),
+      appBar: const CustomAppBar(title: "Progreso"),
       body: Container(
         color: Colors.black,
         padding: const EdgeInsets.all(16.0),
