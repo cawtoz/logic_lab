@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "416774483695-4js4lgfb8gakmcieqdm57sjvajua277o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.logic_lab",
+            "certificate_hash": "2f70b6cd8d1036513b893c2b39a0093800f8cb36"
+          }
+        },
+        {
           "client_id": "416774483695-edderbiv627eooaqrinf8o5lgd2bgtrn.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
