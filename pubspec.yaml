@@ -16,7 +16,7 @@ dependencies:
   intl: ^0.19.0
   image_picker: ^1.1.2
   firebase_storage: ^12.3.2
-  cloud_firestore: ^5.4.4
+  cloud_firestore: ^5.5.0
   file_picker: ^8.1.2
 
 dev_dependencies:

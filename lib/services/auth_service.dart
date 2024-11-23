@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:logic_lab/services/user_service.dart';
 
 class AuthService {
 
   final FirebaseAuth auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
+  final UserService userService = UserService();
 
   Future<User?> signInWithEmailAndPassword(String email, String password) async {
     try {
@@ -39,11 +41,20 @@ class AuthService {
   }
 
   Future<User?> registerWithEmailAndPassword(String email, String password) async {
-    UserCredential result = await auth.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-    return result.user;
+    try {
+      UserCredential result = await auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      User? user = result.user;
+
+      if (user != null) {
+        await userService.createUserData();
+      }
+      return user;
+    } catch (e) {
+      rethrow;
+    }
   }
 
   Future<void> signOut() async {
