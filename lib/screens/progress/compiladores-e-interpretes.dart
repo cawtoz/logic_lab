@@ -1,155 +1,132 @@
 import 'package:flutter/material.dart';
 import 'package:logic_lab/components/custom_app_bar.dart';
+import 'package:logic_lab/services/user_service.dart';
 
-class CompilersAndInterpretersScreen extends StatelessWidget {
+class CompilersAndInterpretersScreen extends StatefulWidget {
   const CompilersAndInterpretersScreen({super.key});
 
   @override
+  State<CompilersAndInterpretersScreen> createState() =>
+      _CompilersAndInterpretersScreenState();
+}
+
+class _CompilersAndInterpretersScreenState
+    extends State<CompilersAndInterpretersScreen> {
+  final Map<int, String?> selectedOptions = {};
+  final Map<int, String> correctAnswers = {
+    0: "Traducir el código fuente", // Compiladores
+    1: "Ejecutar el código línea por línea", // Intérpretes
+    2: "Crear aplicaciones de manera más rápida", // Usos de compiladores
+  };
+
+  @override
   Widget build(BuildContext context) {
+    void showCompletionDialog() {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text("¡Felicitaciones!"),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(
+                  Icons.celebration,
+                  color: Colors.amber,
+                  size: 50,
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  "Has completado el ejercicio",
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                },
+                child: const Text("Finalizar"),
+              ),
+            ],
+          );
+        },
+      );
+    }
+
     return Scaffold(
-      appBar: const CustomAppBar(title: "Compiladores e intérpretes"),
+      appBar: const CustomAppBar(title: "Compiladores e Intérpretes"),
       body: SingleChildScrollView(
         child: Container(
-          color: Colors.black,
           padding: const EdgeInsets.all(16.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 10),
-              const Text(
-                "¿Qué son?",
-                style: TextStyle(
-                  color: Colors.cyanAccent,
-                  fontSize: 26,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 10),
-              Card(
-                color: Colors.grey[850],
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: const Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Text(
-                    "Son herramientas que traducen el código escrito por los programadores en un lenguaje que la computadora puede entender.\n\n"
-                    "Compiladores: Traducen todo el programa antes de ejecutarlo.\n"
-                    "ntérpretes: Traducen y ejecutan línea por línea.",
-                    style: TextStyle(fontSize: 16, color: Colors.white),
-                    textAlign: TextAlign.justify,
+              const Center(
+                child: Text(
+                  "Compiladores e Intérpretes: una visión general",
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
               const SizedBox(height: 20),
-
-              const Text(
-                "¿Para qué funcionan?",
-                style: TextStyle(
-                  color: Colors.cyanAccent,
-                  fontSize: 26,
-                  fontWeight: FontWeight.bold,
-                ),
+              buildInfoCard(
+                "¿Qué son los compiladores?",
+                "Un compilador es un programa que traduce el código fuente de un lenguaje de programación de alto nivel a un lenguaje de bajo nivel (como el lenguaje de máquina) para que pueda ser ejecutado por la computadora.",
               ),
-              const SizedBox(height: 10),
-              Card(
-                color: Colors.grey[850],
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: const Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Text(
-                    "Permiten que los programas escritos en lenguajes de programación funcionen en computadoras u otros dispositivos.",
-                    style: TextStyle(fontSize: 16, color: Colors.white),
-                    textAlign: TextAlign.justify,
+              const SizedBox(height: 20),
+              buildInfoCard(
+                "¿Qué son los intérpretes?",
+                "Un intérprete es un programa que lee y ejecuta el código fuente línea por línea sin convertirlo en un archivo ejecutable. A menudo, se usan en lenguajes de programación como Python.",
+              ),
+              const SizedBox(height: 20),
+              buildInfoCard(
+                "Diferencias clave",
+                "Los compiladores convierten todo el código de una vez antes de ejecutarlo, mientras que los intérpretes ejecutan el código línea por línea. Esto hace que los intérpretes sean más rápidos para la depuración, pero los compiladores producen programas más eficientes.",
+              ),
+              const SizedBox(height: 20),
+              const Center(
+                child: Text(
+                  "Ejercicio",
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
               const SizedBox(height: 20),
-
-              const Text(
-                "Ejemplo:",
-                style: TextStyle(
-                  color: Colors.cyanAccent,
-                  fontSize: 26,
-                  fontWeight: FontWeight.bold,
-                ),
+              buildExerciseQuestion(
+                "¿Qué hace un compilador?",
+                0,
+                {
+                  "Traducir el código fuente": true,
+                  "Ejecutar el código línea por línea": false,
+                },
               ),
-              const SizedBox(height: 10),
-              Card(
-                color: Colors.grey[850],
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: const Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Text(
-                    "1. Piensa en traducir un libro completo a otro idioma:\n"
-                    "Compilador: Traduce todo el libro de una vez antes de entregarlo.\n"
-                    "Intérprete: Traduce una página a la vez mientras alguien la lee.\n\n"
-                    "2. Lenguajes que usan compiladores: C, Java.\n"
-                    "3. Lenguajes que usan intérpretes: Python, JavaScript.",
-                    style: TextStyle(fontSize: 16, color: Colors.white),
-                    textAlign: TextAlign.justify,
-                  ),
-                ),
+              buildExerciseQuestion(
+                "¿Qué hace un intérprete?",
+                1,
+                {
+                  "Ejecutar el código línea por línea": true,
+                  "Traducir el código fuente": false,
+                },
+              ),
+              buildExerciseQuestion(
+                "¿Cuál es el propósito principal de un compilador?",
+                2,
+                {"Crear aplicaciones de manera más rápida": true, "Compilar código en ejecución": false},
               ),
               const SizedBox(height: 20),
-
-              const Text(
-                "Ejercicio:",
-                style: TextStyle(
-                  color: Colors.cyanAccent,
-                  fontSize: 26,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 10),
-              Card(
-                color: Colors.grey[850],
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Relaciona cada tipo de traductor con su descripción:",
-                        style: TextStyle(
-                          color: Colors.cyanAccent,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      QuestionWidget(
-                        question: "Compilador",
-                        options: const [
-                          "Traduce todo el programa de una vez antes de ejecutarlo.",
-                          "Traduce y ejecuta línea por línea mientras se ejecuta.",
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      QuestionWidget(
-                        question: "Intérprete",
-                        options: const [
-                          "Traduce todo el programa de una vez antes de ejecutarlo.",
-                          "Traduce y ejecuta línea por línea mientras se ejecuta.",
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-
-              // Botón de Finalizar
               Center(
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.cyanAccent,
+                    backgroundColor: Colors.blue,
                     foregroundColor: Colors.black,
                     padding: const EdgeInsets.symmetric(
                       vertical: 12,
@@ -157,8 +134,31 @@ class CompilersAndInterpretersScreen extends StatelessWidget {
                     ),
                     textStyle: const TextStyle(fontSize: 18),
                   ),
-                  onPressed: () {
-                    Navigator.pop(context);
+                  onPressed: () async {
+                    if (isValid()) {
+                      UserService userService = UserService();
+                      int? userLevel = await userService.getUserLevel();
+                      if (userLevel == 4) {
+                        await userService.updateUserLevel(5);
+                      }
+                      showCompletionDialog();
+                    } else {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: const Text("¡Error!"),
+                          content: const Text("Por favor, responde todas las preguntas correctamente."),
+                          actions: <Widget>[
+                            TextButton(
+                              child: const Text("Aceptar"),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                    }
                   },
                   child: const Text("Finalizar"),
                 ),
@@ -169,56 +169,98 @@ class CompilersAndInterpretersScreen extends StatelessWidget {
       ),
     );
   }
-}
 
-class QuestionWidget extends StatefulWidget {
-  final String question;
-  final List<String> options;
-
-  const QuestionWidget({
-    super.key,
-    required this.question,
-    required this.options,
-  });
-
-  @override
-  State<QuestionWidget> createState() => _QuestionWidgetState();
-}
-
-class _QuestionWidgetState extends State<QuestionWidget> {
-  int? selectedOption;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(height: 10),
-        Text(
-          widget.question,
-          style: const TextStyle(color: Colors.white, fontSize: 16),
-        ),
-        const SizedBox(height: 10),
-        ...widget.options.asMap().entries.map((entry) {
-          final index = entry.key;
-          final option = entry.value;
-
-          return RadioListTile<int>(
-            value: index,
-            groupValue: selectedOption,
-            onChanged: (value) {
-              setState(() {
-                selectedOption = value;
-              });
-            },
-            title: Text(
-              option,
-              style: const TextStyle(color: Colors.white),
+  // Función para construir tarjetas de información
+  Widget buildInfoCard(String title, String description) {
+    return Card(
+      color: Colors.grey[850],
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: const TextStyle(
+                color: Colors.blue,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            activeColor: Colors.cyanAccent,
-          );
-        }).toList(),
-      ],
+            const SizedBox(height: 10),
+            Text(
+              description,
+              style: const TextStyle(fontSize: 16, color: Colors.white),
+            ),
+          ],
+        ),
+      ),
     );
+  }
+
+  // Función para construir preguntas con selección única
+  Widget buildExerciseQuestion(
+      String question, int questionId, Map<String, bool> options) {
+    return Card(
+      color: Colors.grey[850],
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Text(
+                question,
+                style: const TextStyle(
+                  color: Colors.blue,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            ...options.keys.map((option) {
+              return RadioListTile<String>(
+                activeColor: Colors.blue,
+                title: Text(
+                  option,
+                  style: const TextStyle(color: Colors.white),
+                ),
+                value: option,
+                groupValue: selectedOptions[questionId],
+                onChanged: (value) {
+                  setState(() {
+                    selectedOptions[questionId] = value;
+                  });
+                },
+              );
+            }).toList(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Función para validar las respuestas
+  bool isValid() {
+    bool allAnswered = true;
+    bool allCorrect = true;
+
+    for (var questionId in selectedOptions.keys) {
+      String? selectedOption = selectedOptions[questionId];
+      if (selectedOption == null) {
+        allAnswered = false;
+      } else if (selectedOption != correctAnswers[questionId]) {
+        allCorrect = false;
+      }
+    }
+
+    return allAnswered && allCorrect;
   }
 }

@@ -32,6 +32,12 @@ class AuthService {
       );
 
       UserCredential userCredential = await auth.signInWithCredential(credential);
+
+      User? user = userCredential.user;
+
+      if (user != null) {
+        await userService.createUserData();
+      }
       
       return userCredential.user;
 

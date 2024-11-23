@@ -27,7 +27,7 @@ class MainApp extends StatelessWidget {
       unselectedItemColor: Colors.white,
       selectedItemColor: Colors.blue,
       showUnselectedLabels: false,
-    )
+    ),
   );
 
   @override

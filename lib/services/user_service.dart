@@ -11,7 +11,7 @@ class UserService {
       if (user != null) {
         await _firestore.collection('users').doc(user.uid).set({
           'email': user.email,
-          'nivel': 0,
+          'nivel': 1,
         });
       } else {
         throw Exception("Usuario no autenticado.");

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:logic_lab/components/custom_app_bar.dart';
-import 'que-es-la-programacion.dart';
-import 'lenguajes-de-programacion.dart';
-import 'compiladores-e-interpretes.dart';
-import 'como-funcionan-las-computadoras.dart';
-import 'operadores-logicos.dart';
-import 'variables-y-tipos-de-datos.dart';
-import 'entradas-y-salidas-de-datos.dart';
-import 'tablas-de-verdad-y-logica.dart';
+import 'package:logic_lab/screens/progress/bucles.dart';
+import 'package:logic_lab/screens/progress/como-funcionan-las-computadoras.dart';
+import 'package:logic_lab/screens/progress/compiladores-e-interpretes.dart';
+import 'package:logic_lab/screens/progress/estructuras-condicionales.dart';
+import 'package:logic_lab/screens/progress/lenguajes-de-programacion.dart';
+import 'package:logic_lab/screens/progress/operadores-logicos.dart';
+import 'package:logic_lab/screens/progress/que-es-la-programacion.dart';
+import 'package:logic_lab/screens/progress/variables-y-tipos-de-datos.dart';
+import 'package:logic_lab/services/user_service.dart';
 
 class ProgressScreen extends StatelessWidget {
   const ProgressScreen({super.key});
@@ -30,37 +31,65 @@ class ProgressScreen extends StatelessWidget {
               ),
               const SizedBox(height: 10),
 
-              LinearProgressIndicator(
-                value: 0.3,
-                backgroundColor: Colors.grey[700],
-                valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
+              // Barra de progreso con el nivel del usuario
+              FutureBuilder<int?>(
+                future: UserService().getUserLevel(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator();  // Cargando
+                  } else if (snapshot.hasError) {
+                    return const Text(
+                      'Error al obtener nivel del usuario',
+                      style: TextStyle(color: Colors.red),
+                    );
+                  } else if (snapshot.hasData) {
+                    int? userLevel = snapshot.data ;
+
+                    if (userLevel == null) {
+                      return const Text(
+                        'Nivel de usuario no encontrado',
+                        style: TextStyle(color: Colors.red),
+                      );
+                    }
+
+                    double progress = (userLevel - 1) / 8;
+                    if (progress > 1.0) {
+                      progress = 1.0;
+                    }
+
+                    return LinearProgressIndicator(
+                      value: progress,
+                      backgroundColor: Colors.grey[700],
+                      valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
+                    );
+                  } else {
+                    return const Text('No hay datos disponibles');
+                  }
+                },
               ),
+
               const SizedBox(height: 20),
 
-              buildSectionTile('Introducción', true, [
+              buildSectionTile('Introducción', [
                 '¿Qué es la programación?',
                 'Cómo funcionan las computadoras',
                 'Lenguajes de programación: una visión general',
                 'Compiladores e intérpretes',
-              ]),
-              buildSectionTile('Lógica Básica', false, [
+              ],
+              [1, 2, 3, 4],
+              ),
+              buildSectionTile('Lógica Básica', [
                 'Operadores lógicos y matemáticos',
                 'Variables y tipos de datos',
-                'Entrada y salida de datos',
-                'Tablas de verdad y lógica condicional',
-              ]),
-              buildSectionTile('Algoritmo y Pseudocódigo', false, [
-                '¿Qué es un algoritmo?',
-                'Cómo escribir pseudocódigo',
-                'Diagramas de flujo',
-                'Ejemplos prácticos de algoritmos simples',
-              ]),
-              buildSectionTile('Estructura de Control', false, [
+              ],
+              [5, 6],
+              ),
+              buildSectionTile('Estructura de Control', [
                 'Estructuras condicionales (if-else, switch)',
                 'Bucles (for, while)',
-                'Control de flujo con operadores lógicos',
-                'Manejo de excepciones y errores básicos',
-              ]),
+              ],
+              [7, 8],
+              ),
             ],
           ),
         ),
@@ -68,55 +97,78 @@ class ProgressScreen extends StatelessWidget {
     );
   }
 
-  Widget buildSectionTile(String title, bool isUnlocked, List<String> buttonNames) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 10),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: Colors.white),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: ExpansionTile(
-        maintainState: true,
-        title: Text(
-          title,
-          style: const TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        leading: Icon(
-          isUnlocked ? Icons.lock_open : Icons.lock,
-          color: isUnlocked ? Colors.green : Colors.grey,
-        ),
-        trailing: const Icon(
-          Icons.keyboard_arrow_down,
+Widget buildSectionTile(String title, List<String> buttonNames, List<int> levels) {
+  return Container(
+    margin: const EdgeInsets.only(bottom: 10),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      border: Border.all(color: Colors.white),
+      borderRadius: BorderRadius.circular(10),
+    ),
+    child: ExpansionTile(
+      maintainState: true,
+      title: Text(
+        title,
+        style: const TextStyle(
           color: Colors.black,
+          fontWeight: FontWeight.bold,
         ),
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                childAspectRatio: 3,
-              ),
-              itemCount: buttonNames.length,
-              itemBuilder: (context, index) {
-                return buildTextButton(context, buttonNames[index]);
-              },
-            ),
-          ),
-        ],
       ),
-    );
-  }
+      leading: FutureBuilder<int?>(
+        future: UserService().getUserLevel(), // Fetch user level
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const CircularProgressIndicator(); // Show a loading indicator while waiting
+          } else if (snapshot.hasError) {
+            return const Icon(Icons.error, color: Colors.red); // Handle errors
+          } else if (snapshot.hasData) {
+            int? userLevel = snapshot.data;
 
-  Widget buildTextButton(BuildContext context, String text) {
+            // Ensure userLevel is not null
+            if (userLevel == null) {
+              return const Icon(Icons.lock, color: Colors.grey); // Default to locked if no level is found
+            }
+
+            int minLevel = levels[0];
+
+            // Return the lock icon based on level comparison
+            return Icon(
+              minLevel <= userLevel ? Icons.lock_open : Icons.lock,
+              color: minLevel <= userLevel ? Colors.green : Colors.grey,
+            );
+          } else {
+            return const Icon(Icons.lock, color: Colors.grey); // Default to locked if no data
+          }
+        },
+      ),
+      trailing: const Icon(
+        Icons.keyboard_arrow_down,
+        color: Colors.black,
+      ),
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+              childAspectRatio: 3,
+            ),
+            itemCount: buttonNames.length,
+            itemBuilder: (context, index) {
+              return buildTextButton(context, buttonNames[index], levels[index]);
+            },
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+  Widget buildTextButton(BuildContext context, String text, level) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.blueAccent,
@@ -125,7 +177,14 @@ class ProgressScreen extends StatelessWidget {
         ),
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
       ),
-      onPressed: () {
+      onPressed: () async {
+        UserService userService = UserService();
+        int? userLevel = await userService.getUserLevel();
+
+        if (level > userLevel) {
+          return;
+        }
+
         if (text == '¿Qué es la programación?') {
           Navigator.push(
             context,
@@ -168,24 +227,24 @@ class ProgressScreen extends StatelessWidget {
               builder: (context) => const VariablesAndDataTypesScreen(),
             ),
           );
-        } else if (text == 'Entrada y salida de datos') {
+        } else if (text == 'Estructuras condicionales (if-else, switch)') {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const InputAndOutputScreen(),
+              builder: (context) => const ConditionalStructuresScreen(),
             ),
           );
-        } else if (text == 'Tablas de verdad y lógica condicional') {
+        } else if (text == 'Bucles (for, while)') {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const TruthTablesAndLogicScreen(),
+              builder: (context) => const LoopsScreen(),
             ),
           );
         }
       },
       child: Text(
-        text,
+        '${text} ${level}',
         style: const TextStyle(color: Colors.white),
         textAlign: TextAlign.center,
       ),

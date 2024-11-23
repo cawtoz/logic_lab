@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:logic_lab/components/custom_app_bar.dart';
 import 'package:logic_lab/main.dart';
 import 'package:intl/intl.dart';
+import 'package:logic_lab/services/user_service.dart';
 
 class HomeScreen extends StatelessWidget {
   
@@ -20,7 +21,7 @@ class HomeScreen extends StatelessWidget {
         children: <Widget>[
           const SizedBox(height: 25), //Espacio entre el appBar y el icono
           
-          // Primera sección con el texto centrado
+          // Primera sección con el texto
           Column(
             mainAxisAlignment: MainAxisAlignment.center, // Centra el texto horizontalmente
             children: [
@@ -36,6 +37,20 @@ class HomeScreen extends StatelessWidget {
               Text(
                 'Se unió el ${currentUser?.metadata.creationTime != null ? DateFormat('dd/MM/yyyy')
                 .format(currentUser!.metadata.creationTime!) : 'Fecha no disponible'}',
+              ),
+              FutureBuilder<int?>(
+                future: UserService().getUserLevel(), // Llama a tu función asincrónica
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator(); // Indicador de carga mientras se espera el nivel
+                  } else if (snapshot.hasError) {
+                    return const Text('Error al obtener el nivel'); // Mensaje de error
+                  } else if (snapshot.hasData) {
+                    return Text('Nivel: ${snapshot.data}'); // Nivel del usuario
+                  } else {
+                    return const Text('Nivel no disponible'); // Manejo de null
+                  }
+                },
               ),
             ],
           ),
