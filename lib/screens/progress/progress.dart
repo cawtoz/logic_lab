@@ -133,14 +133,14 @@ class ProgressScreen extends StatelessWidget {
               builder: (context) => const ProgrammingDefinitionScreen(),
             ),
           );
-        } else if (text == 'Cómo funcionan las computadoras') {
+        } else if (text == 'Lenguajes de programación: una visión general') {
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => const HowComputersWorkScreen(),
             ),
           );
-        } else if (text == 'Lenguajes de programación: una visión general') {
+        } else if (text == 'Cómo funcionan las computadoras') {
           Navigator.push(
             context,
             MaterialPageRoute(
