@@ -72,7 +72,7 @@ class _ProgrammingDefinitionScreenState extends State<ProgrammingDefinitionScree
                 title: "Ejemplo:",
                 content:
                     "Supongamos que quieres explicarle a alguien cómo preparar un sándwich.",
-                imagePath: '../assets/sandwich.png',
+                imagePath: 'assets/sandwich.png',
                 footer:
                     "Relación con programación: Cada paso es una instrucción que la persona sigue para completar una tarea. En programación, estas instrucciones son las líneas de código.",
               ),

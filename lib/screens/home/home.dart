@@ -32,7 +32,7 @@ class HomeScreen extends StatelessWidget {
                   : const AssetImage('assets/usuario.jpg') as ImageProvider, // Imagen local si photoURL es null
               ),
               const SizedBox(height: 20),
-              Text(currentUser?.displayName ?? 'Usuario Desconocido'), // Mostrar el nombre del usuario
+              Text(currentUser?.displayName ?? ''), // Mostrar el nombre del usuario
               Text(currentUser?.email ?? 'No disponible'), // Mostrar el correo del usuario
               Text(
                 'Se unió el ${currentUser?.metadata.creationTime != null ? DateFormat('dd/MM/yyyy')

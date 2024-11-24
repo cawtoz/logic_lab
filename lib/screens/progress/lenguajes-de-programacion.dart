@@ -87,7 +87,7 @@ class _HowComputersWorkScreenState extends State<HowComputersWorkScreen> {
               const SizedBox(height: 20),
               const Center(
                 child: Image(
-                  image: AssetImage('../assets/comoFunciona1.png'),
+                  image: AssetImage('assets/comoFunciona1.png'),
                   height: 250,
                   fit: BoxFit.cover,
                 ),
@@ -95,7 +95,7 @@ class _HowComputersWorkScreenState extends State<HowComputersWorkScreen> {
               const SizedBox(height: 20),
               const Center(
                 child: Image(
-                  image: AssetImage('../assets/comoFunciona2.png'),
+                  image: AssetImage('assets/comoFunciona2.png'),
                   height: 250,
                   fit: BoxFit.cover,
                 ),
