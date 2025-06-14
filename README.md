@@ -12,5 +12,6 @@
 ![Ejercicio 3](https://github.com/user-attachments/assets/23b6dc8a-5ab3-4734-b291-048f6f25033b)
 ![Ejercicio 4](https://github.com/user-attachments/assets/60b9ddce-1bc4-4b44-8faa-6e4f464b5a1c)
 ![Perfil](https://github.com/user-attachments/assets/29d46759-4fc1-445f-a962-9574f3567b36)
-![Operador](https://github.com/user-attachments/assets/7ce7a7ee-d72c-4e95-a07a-269a0477b429)
+![Operador](https://github.com/user-attachments/assets/aae55838-1c65-4bb6-91f4-f2d1fbbfa858)
+
 
